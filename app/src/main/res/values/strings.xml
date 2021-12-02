@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Login Application</string>
+    <string name="Login">Login</string>
+    <string name="Registration">Registration</string>
+    <string name="register">Register</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+</resources>

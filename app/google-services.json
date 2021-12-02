@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "144486241769",
+    "project_id": "my-login-application-dcaec",
+    "storage_bucket": "my-login-application-dcaec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144486241769:android:a564fea5533fc6e70ba778",
+        "android_client_info": {
+          "package_name": "com.example.myloginapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "144486241769-ue25tphrq44s6ekgjppno9omceubkhr1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv5-F6mp-CGAn5Ax9IEGaIIkmKb4pQzFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "144486241769-ue25tphrq44s6ekgjppno9omceubkhr1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
