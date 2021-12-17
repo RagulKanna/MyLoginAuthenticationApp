@@ -1,6 +1,8 @@
 package com.example.myloginapplication
 
+import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +18,19 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlin.properties.Delegates
 
-
+@Suppress("DEPRECATION")
 class GoogleSignInFragment : Fragment() {
+
+    private lateinit var progressDialog: ProgressDialog
     private lateinit var gso: GoogleSignInOptions
     private lateinit var googleSignInClient: GoogleSignInClient
     private var RC_SIGN_IN by Delegates.notNull<Int>()
     private lateinit var mAuth: FirebaseAuth
+    var personPhoto: Uri = Uri.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        retainInstance
 
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -33,17 +39,16 @@ class GoogleSignInFragment : Fragment() {
         googleSignInClient = GoogleSignIn.getClient(activity, gso)
         mAuth = FirebaseAuth.getInstance()
         RC_SIGN_IN = 100
+        progressDialog = ProgressDialog(context)
+        signIn()
 
+    }
+    private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_google_sign_in, container, false)
+        progressDialog.setTitle("Google SignIn")
+        progressDialog.setMessage("loading")
+        progressDialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -78,9 +83,10 @@ class GoogleSignInFragment : Fragment() {
 
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
-            Toast.makeText(context,"signed in as "+user.email.toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "signed in as " + user.email.toString(), Toast.LENGTH_SHORT)
+                .show()
+            progressDialog.dismiss()
         }
-        childFragmentManager.beginTransaction().replace(R.id.googleSignIn, LoginSuccessfulPage())
-            .commit()
+        startActivity(Intent(context, NoteHomeActivity::class.java))
     }
 }

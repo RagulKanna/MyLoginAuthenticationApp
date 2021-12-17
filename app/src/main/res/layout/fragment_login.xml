@@ -5,7 +5,7 @@
     android:id="@+id/login_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_image"
+    android:background="@drawable/gradient_color"
     tools:context=".LoginPage"
     tools:ignore="ExtraText">
 
@@ -15,7 +15,7 @@
         android:focusable="true"
         android:text="Login"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="70sp"
         android:textStyle="bold"
         android:fontFamily="cursive"

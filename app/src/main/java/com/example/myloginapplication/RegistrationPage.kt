@@ -1,7 +1,6 @@
 package com.example.myloginapplication
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,14 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.myloginapplication.model.User
+import com.example.myloginapplication.model.UserAuthService
+import com.example.myloginapplication.viewmodel.RegistrationViewModel
+import com.example.myloginapplication.viewmodel.RegistrationViewModelFactory
+import com.example.myloginapplication.viewmodel.SharedViewModel
+import com.example.myloginapplication.viewmodel.SharedViewModelFactory
 
 class RegistrationPage : Fragment() {
 
@@ -22,8 +27,8 @@ class RegistrationPage : Fragment() {
     private lateinit var confirmPasswordText: EditText
     private lateinit var registerButton: Button
     private lateinit var emailCheck: Regex
-    private lateinit var mAuth: FirebaseAuth
-
+    private lateinit var registrationViewModel: RegistrationViewModel
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +41,19 @@ class RegistrationPage : Fragment() {
         passwordText = view.findViewById(R.id.PasswordInput)
         confirmPasswordText = view.findViewById(R.id.ConfirmPasswordInput)
         registerButton = view.findViewById(R.id.Register_Button)
-
         emailCheck =
             Regex("^[a-z0-9]{1,}+([_+-.][a-z0-9]{3,}+)*@[a-z0-9]+.[a-z]{2,3}+(.[a-z]{2,3}){0,1}$")
-        mAuth = FirebaseAuth.getInstance()
+
+        registrationViewModel = ViewModelProvider(
+            this,
+            RegistrationViewModelFactory(UserAuthService())
+        ).get(RegistrationViewModel::class.java)
+
+        sharedViewModel = ViewModelProvider(
+            requireActivity(),
+            SharedViewModelFactory(UserAuthService())
+        )[SharedViewModel::class.java]
+
 
         return view
     }
@@ -57,18 +71,14 @@ class RegistrationPage : Fragment() {
         }
     }
 
-    private fun sendUserToHomePage() {
-        val intent = Intent(activity, MainActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun performAuthentication() {
         registerButton.setOnClickListener {
-            val email = emailText.text.toString()
+            val emailId = emailText.text.toString()
             val password = passwordText.text.toString()
             val confirmPassword = confirmPasswordText.text.toString()
+            val user = User(emailId = emailId, password = password)
 
-            if (!email.matches(emailCheck)) {
+            if (!emailId.matches(emailCheck)) {
                 emailText.error = "Enter correct Email"
             } else if (password == "" || password.length < 6) {
                 passwordText.error = "Enter correct password"
@@ -76,26 +86,18 @@ class RegistrationPage : Fragment() {
                 passwordText.error = "Password does not match"
                 confirmPasswordText.error = "Password does not match"
             } else {
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
-                    OnCompleteListener {
-                        if (it.isSuccessful) {
-                            sendUserToHomePage()
-                            Toast.makeText(
-                                activity,
-                                "Registration Successful",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        } else {
-                            Toast.makeText(activity, "" + it.exception, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    })
+                registrationViewModel.registrationUser(user)
+                registrationViewModel.registrationStatus.observe(viewLifecycleOwner, Observer {
+                    if (it.status) {
+                        sharedViewModel.gotoHomePage(true)
+                    } else {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                })
             }
         }
     }
-
-
 }
 
 

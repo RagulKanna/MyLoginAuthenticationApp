@@ -5,23 +5,26 @@
         <item
             android:id="@+id/notes"
             android:icon="@drawable/ic_baseline_notes_24"
-            android:title="notes" />
+            android:title="Notes" />
 
         <item
-            android:id="@+id/archive"
+            android:id="@+id/archived_Notes"
             android:icon="@drawable/ic_baseline_archive_24"
-            android:title="archive" />
-
-        <item
-            android:id="@+id/delete"
-            android:icon="@drawable/ic_baseline_delete_24"
-            android:title="delete" />
+            android:title="Archive" />
 
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_baseline_login_24"
-            android:title="logout" />
+            android:title="Logout" />
 
+    </group>
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/share"
+            android:icon="@drawable/ic_baseline_share_24"
+            android:title="Share"/>
     </group>
 
 </menu>

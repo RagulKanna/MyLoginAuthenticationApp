@@ -5,7 +5,7 @@
         android:id="@+id/registration_Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_image"
+    android:background="@drawable/gradient_color"
         tools:context=".RegistrationPage"
         tools:ignore="ExtraText">
 
@@ -19,7 +19,7 @@
         android:focusable="true"
         android:text="@string/Registration"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="70sp"
         android:textStyle="bold"
         android:fontFamily="cursive"

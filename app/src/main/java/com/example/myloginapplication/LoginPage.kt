@@ -11,6 +11,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.myloginapplication.model.UserAuthService
+import com.example.myloginapplication.viewmodel.LoginViewModel
+import com.example.myloginapplication.viewmodel.LoginViewModelFactory
+import com.example.myloginapplication.viewmodel.SharedViewModel
+import com.example.myloginapplication.viewmodel.SharedViewModelFactory
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +33,8 @@ class LoginPage : Fragment() {
     private lateinit var googleButton: TextView
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUser: FirebaseUser
+    private lateinit var loginViewModel: LoginViewModel
+    lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,10 +49,17 @@ class LoginPage : Fragment() {
         googleButton = view.findViewById(R.id.google_icon)
         mAuth = FirebaseAuth.getInstance()
 
-        createAccount.setOnClickListener() {
-            childFragmentManager.beginTransaction()
-                .replace(R.id.login_fragment, RegistrationPage()).commit()
-        }
+        loginViewModel = ViewModelProvider(
+            this,
+            LoginViewModelFactory(UserAuthService())
+        ).get(LoginViewModel::class.java)
+
+        sharedViewModel = ViewModelProvider(
+            requireActivity(),
+            SharedViewModelFactory(UserAuthService())
+        )[SharedViewModel::class.java]
+
+
         return view
     }
 
@@ -53,6 +68,7 @@ class LoginPage : Fragment() {
         performLogin()
         googleLogin()
         recoverForgotPassword()
+        goToRegisterPage()
     }
 
     private fun recoverForgotPassword() {
@@ -82,42 +98,43 @@ class LoginPage : Fragment() {
         })
     }
 
+    private fun goToRegisterPage() {
+//        createAccount.setOnClickListener() {
+//            sharedViewModel.gotoRegistrationPage(true)
+//            sharedViewModel.gotoHomePage(false)
+//        }
+        createAccount.setOnClickListener {
+            childFragmentManager.beginTransaction().replace(R.id.login_fragment, RegistrationPage())
+                .commit()
+        }
+    }
 
     private fun performLogin() {
         loginButton.setOnClickListener {
-            val email = emailText.text.toString()
+            val emailId = emailText.text.toString()
             val password = passwordText.text.toString()
             val emailCheck =
                 Regex("^[a-z0-9]{1,}+([_+-.][a-z0-9]{3,}+)*@[a-z0-9]+.[a-z]{2,3}+(.[a-z]{2,3}){0,1}$")
 
-            if (!email.matches(emailCheck)) {
+            if (!emailId.matches(emailCheck)) {
                 emailText.error = "Enter correct Email"
             } else if (password == "" || password.length < 6) {
                 passwordText.error = "Enter correct password"
             } else {
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(
-                    OnCompleteListener {
-                        if (it.isSuccessful) {
-                            sendUserToSuccessfulPage()
-                            Toast.makeText(
-                                activity,
-                                "Login Successful",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        } else {
-                            Toast.makeText(activity, "" + it.exception, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                )
+                // loginViewModel.loginToFundoo(emailId, password)
+                //loginViewModel.loginStatus.observe(viewLifecycleOwner, Observer {
+                //if (it.status) {
+                //sharedViewModel.gotoHomePage(true)
+                firebaseLogin(emailId, password)
+                //  Toast.makeText(requireContext(), "${it.status}", Toast.LENGTH_SHORT).show()
+                //}
+                // })
             }
         }
     }
 
     private fun sendUserToSuccessfulPage() {
-       val intent = Intent(context, HomeActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(context, NoteHomeActivity::class.java))
     }
 
     private fun googleLogin() {
@@ -125,6 +142,18 @@ class LoginPage : Fragment() {
             childFragmentManager.beginTransaction()
                 .replace(R.id.login_fragment, GoogleSignInFragment()).commit()
         }
+    }
+
+    private fun firebaseLogin(emailId: String, password: String) {
+        mAuth.signInWithEmailAndPassword(emailId, password).addOnCompleteListener(
+            OnCompleteListener {
+                if (it.isSuccessful) {
+                    sendUserToSuccessfulPage()
+                } else {
+                    Toast.makeText(requireContext(), "${it.exception}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 }
 
