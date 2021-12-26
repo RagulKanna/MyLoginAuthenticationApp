@@ -10,4 +10,5 @@
     <string name="todo">TODO</string>
     <string name="this_is_title">This is Title</string>
     <string name="this_is_content">This is content</string>
+    <string name="change_profile_picture">Change Profile Picture?</string>
 </resources>

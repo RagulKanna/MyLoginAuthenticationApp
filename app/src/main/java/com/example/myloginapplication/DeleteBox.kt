@@ -42,11 +42,6 @@ class DeleteBox : Fragment() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.setCanceledOnTouchOutside(false)
-//        alertDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_custom)
-//        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-//            .setTextColor(resources.getColor(R.color.black))
-//        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-//            .setTextColor(resources.getColor(R.color.black))
         alertDialog.show()
     }
 }

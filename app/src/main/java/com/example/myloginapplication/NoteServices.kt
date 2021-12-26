@@ -2,12 +2,19 @@ package com.example.myloginapplication
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.net.Uri
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.*
-
+import com.google.firebase.storage.StorageReference
 
 class NoteServices {
 
@@ -28,9 +35,9 @@ class NoteServices {
         archive: Boolean,
         context: Context
     ) {
-        var documentReference =
+        val documentReference =
             firestore.collection("Users").document(firebaseUser.uid).collection("Notes").document()
-        var note = mutableMapOf<String, String>()
+        val note = mutableMapOf<String, String>()
         note["title"] = title
         note["noteContent"] = noteContent
         note["dateTime"] = timeStamp
@@ -45,20 +52,18 @@ class NoteServices {
     fun retrieveNote(
         noteArrayList: ArrayList<NoteData>,
         context: Context,
-        myAdapter: NoteAdapter,
         flag: Int
     ) {
         if (flag == 2) {
-            retrieveUnarchivedQuery(context, noteArrayList, myAdapter)
+            retrieveUnarchivedQuery(context, noteArrayList)
         } else if (flag == 1) {
-            retrieveArchivedQuery(context, noteArrayList, myAdapter)
+            retrieveArchivedQuery(context, noteArrayList)
         }
     }
 
     private fun retrieveArchivedQuery(
         context: Context,
-        noteArrayList: ArrayList<NoteData>,
-        myAdapter: NoteAdapter
+        noteArrayList: ArrayList<NoteData>
     ) {
         val documentRef =
             firestore.collection("Users").document(firebaseUser.uid).collection("Notes")
@@ -82,15 +87,13 @@ class NoteServices {
                         noteArrayList.add(data)
                     }
                 }
-                myAdapter.notifyDataSetChanged()
             }
         })
     }
 
     private fun retrieveUnarchivedQuery(
         context: Context,
-        noteArrayList: ArrayList<NoteData>,
-        myAdapter: NoteAdapter
+        noteArrayList: ArrayList<NoteData>
     ) {
         val documentRef =
             firestore.collection("Users").document(firebaseUser.uid).collection("Notes")
@@ -113,7 +116,6 @@ class NoteServices {
                         noteArrayList.add(data)
                     }
                 }
-                myAdapter.notifyDataSetChanged()
             }
         })
     }
@@ -138,10 +140,10 @@ class NoteServices {
         context: Context,
         archive: Boolean
     ) {
-        var docRef = firestore.collection("Users").document(firebaseUser.uid).collection("Notes")
+        val docRef = firestore.collection("Users").document(firebaseUser.uid).collection("Notes")
             .document(Id)
         val db = DatabaseHandler(context)
-        var note = mutableMapOf<String, String>()
+        val note = mutableMapOf<String, String>()
         note["title"] = newTitle
         note["noteContent"] = newContent
         note["dateTime"] = timeStamp
@@ -152,5 +154,45 @@ class NoteServices {
             Toast.makeText(context, "Failed to update Note", Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun retrieveImage(
+        context: Context,
+        fileRef: StorageReference,
+        profilePhoto: ShapeableImageView,
+    ) {
+        fileRef.child("image").downloadUrl.addOnSuccessListener(object: OnSuccessListener<Uri>{
+            override fun onSuccess(uri: Uri?) {
+                Glide.with(context).load(uri).into(profilePhoto)
+            }
+        }).addOnFailureListener {
+            Toast.makeText(context, "Image Error", Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+    fun deleteFiles(fileReference: StorageReference) {
+        fileReference.delete()
+    }
+
+    fun uploadFile(
+        context: Context,
+        fileReference: StorageReference,
+        imageUri: Uri,
+        databaseRef: DatabaseReference,
+        progressBar: ProgressBar
+    ) {
+        fileReference.putFile(imageUri).addOnSuccessListener {
+            Toast.makeText(context, "Uploaded Successfully", Toast.LENGTH_SHORT)
+                .show()
+            val uploadId = databaseRef.push().key
+            if (uploadId != null) {
+                databaseRef.child(uploadId)
+                progressBar.visibility = View.INVISIBLE
+            }
+        }.addOnFailureListener {
+            Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
+
 

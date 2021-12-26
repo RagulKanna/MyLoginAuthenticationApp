@@ -69,8 +69,6 @@ class GoogleSignInFragment : Fragment() {
         activity?.let {
             mAuth.signInWithCredential(credential).addOnCompleteListener(it) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(context, "signInWithCredential:success", Toast.LENGTH_SHORT)
-                        .show()
                     val user = mAuth.currentUser
                     updateUI(user)
                 } else {

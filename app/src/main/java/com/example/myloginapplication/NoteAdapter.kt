@@ -1,5 +1,6 @@
 package com.example.myloginapplication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.SpannableString
@@ -19,7 +20,7 @@ class NoteAdapter(
     private var noteList: ArrayList<NoteData>,
     private val context: Context
 ) :
-    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(), Filterable{
+    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(), Filterable {
 
     var noteFilterList = ArrayList<NoteData>()
 
@@ -48,7 +49,6 @@ class NoteAdapter(
                 false
             )
         }
-
         onClickCard(note, holder)
     }
 
@@ -86,36 +86,27 @@ class NoteAdapter(
     }
 
     private fun onClickCard(note: NoteData, holder: NoteViewHolder) {
-        holder.noteCard.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val check = note?.archive!!
-                if (check == "false") {
-                    val bundle = Bundle()
-                    val changeFragment = R.id.notesPage
-                    bundle.putSerializable("noteObject", note)
-                    val fragment = EditPage()
-                    fragment.arguments = bundle
-                    val activity = v!!.context as AppCompatActivity
-                    if(changeFragment == R.id.notesPage) {
-                        val fl = activity.findViewById<FrameLayout>(changeFragment)
-                        fl.removeAllViews()
-                        activity.supportFragmentManager.beginTransaction()
-                            .add(changeFragment, fragment).commit()
-                    }else{
-                        val fl = activity.findViewById<FrameLayout>(R.id.search_fragment)
-                        fl.removeAllViews()
-                        activity.supportFragmentManager.beginTransaction()
-                            .add(R.id.search_fragment, fragment).commit()
-                    }
-                } else {
-                    Toast.makeText(
-                        v!!.context,
-                        "Edit cannot be done on archive",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        holder.noteCard.setOnClickListener { v ->
+            val check = note.archive!!
+            if (check == "false") {
+                val bundle = Bundle()
+                val changeFragment = R.id.notesPage
+                bundle.putSerializable("noteObject", note)
+                val fragment = EditPage()
+                fragment.arguments = bundle
+                val activity = v!!.context as AppCompatActivity
+                val fl = activity.findViewById<FrameLayout>(changeFragment)
+                fl.removeAllViews()
+                activity.supportFragmentManager.beginTransaction()
+                    .add(changeFragment, fragment).commit()
+            } else {
+                Toast.makeText(
+                    v!!.context,
+                    "Edit cannot be done on archive",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        })
+        }
     }
 
     private fun setValuesToViewAndDataBase(
@@ -131,6 +122,7 @@ class NoteAdapter(
         db.saveData(note)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun onClickImageButton(
         note: NoteData,
         holder: NoteViewHolder,
@@ -170,10 +162,10 @@ class NoteAdapter(
                         if (check == "false") {
                             val archive = true
                             noteServices.updateNote(
-                                note?.id!!,
-                                note?.title!!,
-                                note?.noteContent!!,
-                                note?.dateTime!!,
+                                note.id!!,
+                                note.title!!,
+                                note.noteContent!!,
+                                note.dateTime!!,
                                 context,
                                 archive
                             )
@@ -186,10 +178,10 @@ class NoteAdapter(
                         } else {
                             val archive = false
                             noteServices.updateNote(
-                                note?.id!!,
-                                note?.title!!,
-                                note?.noteContent!!,
-                                note?.dateTime!!,
+                                note.id!!,
+                                note.title!!,
+                                note.noteContent!!,
+                                note.dateTime!!,
                                 context,
                                 archive
                             )

@@ -3,6 +3,10 @@ package com.example.myloginapplication.model
 import com.example.myloginapplication.listener.AuthListener
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+
+
+
 
 class UserAuthService {
 
@@ -27,7 +31,10 @@ class UserAuthService {
         mAuth.createUserWithEmailAndPassword(user.emailId, user.password).addOnCompleteListener(
             OnCompleteListener {
                 if (it.isSuccessful) {
-                    listener(AuthListener(it.isSuccessful, "Registration Sucessful"))
+                    val profileUpdates: UserProfileChangeRequest =
+                        UserProfileChangeRequest.Builder().setDisplayName(user.name).build()
+                    mAuth.currentUser?.updateProfile(profileUpdates)
+                    listener(AuthListener(it.isSuccessful, "Registration Successful"))
                 }
             })
     }

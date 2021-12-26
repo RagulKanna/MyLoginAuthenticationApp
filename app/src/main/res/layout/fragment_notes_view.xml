@@ -19,20 +19,42 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/white"
+            android:backgroundTint="#000066"
             android:contentDescription="TODO"
             android:src="@drawable/fab_button"
-            android:backgroundTint="#000066"
             app:fabSize="normal"
             app:maxImageSize="40dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <ImageButton
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_toRightOf="@+id/previousButton"
+            android:backgroundTint="@color/fui_transparent"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_navigate_next_24" />
+
+        <ImageButton
+            android:id="@+id/previousButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/fui_transparent"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_navigate_before_24" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_View"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="70dp"
             android:scrollbars="vertical">
 
         </androidx.recyclerview.widget.RecyclerView>

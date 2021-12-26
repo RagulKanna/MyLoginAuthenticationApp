@@ -25,6 +25,7 @@ class RegistrationPage : Fragment() {
     private lateinit var emailText: EditText
     private lateinit var passwordText: EditText
     private lateinit var confirmPasswordText: EditText
+    private lateinit var userNameText: EditText
     private lateinit var registerButton: Button
     private lateinit var emailCheck: Regex
     private lateinit var registrationViewModel: RegistrationViewModel
@@ -41,6 +42,7 @@ class RegistrationPage : Fragment() {
         passwordText = view.findViewById(R.id.PasswordInput)
         confirmPasswordText = view.findViewById(R.id.ConfirmPasswordInput)
         registerButton = view.findViewById(R.id.Register_Button)
+        userNameText = view.findViewById(R.id.userName)
         emailCheck =
             Regex("^[a-z0-9]{1,}+([_+-.][a-z0-9]{3,}+)*@[a-z0-9]+.[a-z]{2,3}+(.[a-z]{2,3}){0,1}$")
 
@@ -76,7 +78,8 @@ class RegistrationPage : Fragment() {
             val emailId = emailText.text.toString()
             val password = passwordText.text.toString()
             val confirmPassword = confirmPasswordText.text.toString()
-            val user = User(emailId = emailId, password = password)
+            val userName = userNameText.text.toString()
+            val user = User(emailId = emailId, password = password, name = userName)
 
             if (!emailId.matches(emailCheck)) {
                 emailText.error = "Enter correct Email"
