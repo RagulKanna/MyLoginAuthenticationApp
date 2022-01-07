@@ -1,6 +1,5 @@
 package com.example.myloginapplication
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlin.properties.Delegates
 
 
@@ -21,7 +23,6 @@ class ArchivePage : Fragment() {
     private lateinit var layoutAsList: StaggeredGridLayoutManager
     private lateinit var noteAdapter: NoteAdapter
     private lateinit var noteArrayList: ArrayList<NoteData>
-    private lateinit var retrievedList: ArrayList<NoteData>
     private lateinit var changeViewOfNotes: ImageButton
     private val noteService = NoteServices()
     private var flag by Delegates.notNull<Int>()
@@ -43,17 +44,25 @@ class ArchivePage : Fragment() {
         layoutAsGrid = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         layoutAsList = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         noteArrayList = arrayListOf()
-        noteAdapter = NoteAdapter(noteArrayList, requireContext())
-        val context = requireContext()
-        val passFlag = 1
-        noteService.retrieveNote(noteArrayList, context, passFlag)
         flag = 0
-        (activity as AppCompatActivity?)!!.supportActionBar?.title = "Archived"
+        (activity as AppCompatActivity?)!!.supportActionBar?.title = "Archive"
         (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayUseLogoEnabled(true)
         fl = view.findViewById(R.id.archivePage)
         previousBtn = view.findViewById(R.id.previousButton)
         nextBtn = view.findViewById(R.id.nextButton)
-        retrievedList = noteArrayList
+        recyclerView.layoutManager = layoutAsGrid
+        noteService.retrieveNote(
+            noteArrayList,
+            requireContext(),
+            1,
+            recyclerView,
+            page,
+            currentPage
+        )
+        GlobalScope.async {
+            delay(1000)
+            toggleButton(currentPage)
+        }
         return view
     }
 
@@ -61,7 +70,6 @@ class ArchivePage : Fragment() {
         onClickNextButton()
         onClickPreviousButton()
         changeViewButton()
-        viewNote()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -87,7 +95,7 @@ class ArchivePage : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = layout
         recyclerView.adapter =
-            NoteAdapter(page.generatePage(noteArrayList, currentPage), requireContext())
+            NoteAdapter(page.generatePage(noteArrayList, currentPage,requireContext()), requireContext())
     }
 
     private fun onClickNextButton() {
@@ -95,7 +103,7 @@ class ArchivePage : Fragment() {
             currentPage += 1
             toggleButton(currentPage)
             recyclerView.adapter =
-                NoteAdapter(page.generatePage(noteArrayList, currentPage), requireContext())
+                NoteAdapter(page.generatePage(noteArrayList, currentPage, requireContext()),requireContext())
         }
     }
 
@@ -104,7 +112,7 @@ class ArchivePage : Fragment() {
             currentPage -= 1
             toggleButton(currentPage)
             recyclerView.adapter =
-                NoteAdapter(page.generatePage(noteArrayList, currentPage), requireContext())
+                NoteAdapter(page.generatePage(noteArrayList, currentPage,requireContext()), requireContext())
         }
     }
 
@@ -116,11 +124,10 @@ class ArchivePage : Fragment() {
         } else {
             totalPages = pages
         }
-        if(currentPage == 0 && currentPage == totalPages){
+        if (currentPage == 0 && currentPage == totalPages) {
             previousBtn.isEnabled = false
             nextBtn.isEnabled = false
-        }
-        else if (currentPage == 0) {
+        } else if (currentPage == 0) {
             previousBtn.isEnabled = false
             nextBtn.isEnabled = true
         } else if (currentPage == totalPages) {
@@ -131,11 +138,4 @@ class ArchivePage : Fragment() {
             previousBtn.isEnabled = true
         }
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun viewNote() {
-        recyclerView.layoutManager = layoutAsGrid
-        recyclerView.adapter = NoteAdapter(retrievedList, requireContext())
-    }
-
 }

@@ -2,6 +2,7 @@ package com.example.myloginapplication
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
@@ -43,9 +47,7 @@ open class NotesView : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_notes_view, container, false)
-
         (activity as AppCompatActivity?)!!.supportActionBar?.title = "Note"
         (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayUseLogoEnabled(true)
         fl = view.findViewById(R.id.notesPage)
@@ -60,16 +62,17 @@ open class NotesView : Fragment() {
         flag = 1
         noteArrayList = arrayListOf()
         noteAdapter = NoteAdapter(noteArrayList, requireContext())
-        val context = requireContext()
-        val passFlag = 2
-        noteService.retrieveNote(noteArrayList, context, passFlag)
+        recyclerView.layoutManager = layoutAsGrid
+        noteService.retrieveNote(noteArrayList, requireContext(), 2, recyclerView,page,currentPage)
         retrievedList = noteArrayList
+        GlobalScope.async {
+         delay(1000)
+            toggleButton(currentPage)
+        }
         return view
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewNote()
         creatingNewNotes()
         onClickSearchButton()
         onClickNextButton()
@@ -77,18 +80,12 @@ open class NotesView : Fragment() {
         changeViewButton()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun viewNote() {
-        recyclerView.layoutManager = layoutAsGrid
-        recyclerView.adapter = NoteAdapter(retrievedList, requireContext())
-    }
-
     private fun onClickNextButton() {
         nextBtn.setOnClickListener() {
             currentPage += 1
             toggleButton(currentPage)
             recyclerView.adapter =
-                NoteAdapter(page.generatePage(noteArrayList, currentPage), requireContext())
+                NoteAdapter(page.generatePage(noteArrayList, currentPage,requireContext()), requireContext())
         }
     }
 
@@ -97,7 +94,7 @@ open class NotesView : Fragment() {
             currentPage -= 1
             toggleButton(currentPage)
             recyclerView.adapter =
-                NoteAdapter(page.generatePage(noteArrayList, currentPage), requireContext())
+                NoteAdapter(page.generatePage(noteArrayList, currentPage,requireContext()), requireContext())
         }
     }
 
@@ -175,7 +172,7 @@ open class NotesView : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = layout
         recyclerView.adapter =
-            NoteAdapter(page.generatePage(noteArrayList, currentPage), requireContext())
+            NoteAdapter(page.generatePage(noteArrayList, currentPage,requireContext()), requireContext())
     }
 
     private fun creatingNewNotes() {

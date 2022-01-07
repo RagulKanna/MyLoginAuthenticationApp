@@ -71,7 +71,8 @@ class EditPage : Fragment() {
                 newContent,
                 currentDateandTime,
                 context,
-                archive = false
+                archive = false,
+                adapter = NoteAdapter(arrayListOf(NoteData()), context)
             )
             startActivity(Intent(context, NoteHomeActivity()::class.java))
         }

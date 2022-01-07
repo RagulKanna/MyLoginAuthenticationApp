@@ -1,5 +1,6 @@
 package com.example.myloginapplication
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.imageview.ShapeableImageView
@@ -21,11 +23,16 @@ class NoteServices {
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var collectionReference: CollectionReference
 
     init {
         firebaseAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         firebaseUser = firebaseAuth.currentUser!!
+        collectionReference =
+            firestore.collection(USER_COLLECTION).document(firebaseUser.uid).collection(
+                NOTE_COLLECTION)
+
     }
 
     fun addNote(
@@ -33,44 +40,67 @@ class NoteServices {
         noteContent: String,
         timeStamp: String,
         archive: Boolean,
-        context: Context
+        context: Context,
+        label: ArrayList<String>
     ) {
-        val documentReference =
-            firestore.collection("Users").document(firebaseUser.uid).collection("Notes").document()
         val note = mutableMapOf<String, String>()
         note["title"] = title
         note["noteContent"] = noteContent
         note["dateTime"] = timeStamp
         note["archive"] = archive.toString()
-        documentReference.set(note).addOnSuccessListener {
-            Toast.makeText(context, "Note created successfully", Toast.LENGTH_SHORT).show()
+        collectionReference.document().set(note).addOnSuccessListener {
+            Toast.makeText(context, "Note created successfully", Toast.LENGTH_SHORT)
+                .show()
         }.addOnFailureListener {
-            Toast.makeText(context, "Failed to create Note", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Failed to create Note", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
     fun retrieveNote(
         noteArrayList: ArrayList<NoteData>,
         context: Context,
-        flag: Int
+        flag: Int,
+        recyclerView: RecyclerView,
+        page: Paginator,
+        currentPage: Int
     ) {
         if (flag == 2) {
-            retrieveUnarchivedQuery(context, noteArrayList)
+            retrieveUnarchivedQuery(
+                context,
+                noteArrayList,
+                recyclerView,
+                page,
+                currentPage
+            )
         } else if (flag == 1) {
-            retrieveArchivedQuery(context, noteArrayList)
+            retrieveArchivedQuery(
+                context,
+                noteArrayList,
+                recyclerView,
+                page,
+                currentPage
+            )
         }
     }
 
     private fun retrieveArchivedQuery(
         context: Context,
-        noteArrayList: ArrayList<NoteData>
+        noteArrayList: ArrayList<NoteData>,
+        recyclerView: RecyclerView,
+        page: Paginator,
+        currentPage: Int
     ) {
         val documentRef =
-            firestore.collection("Users").document(firebaseUser.uid).collection("Notes")
+            collectionReference
                 .orderBy("title", Query.Direction.ASCENDING)
                 .whereEqualTo("archive", "true")
         documentRef.addSnapshotListener(object : EventListener<QuerySnapshot> {
-            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onEvent(
+                value: QuerySnapshot?,
+                error: FirebaseFirestoreException?
+            ) {
                 if (error != null) {
                     Toast.makeText(
                         context,
@@ -87,20 +117,36 @@ class NoteServices {
                         noteArrayList.add(data)
                     }
                 }
+                val adapter = NoteAdapter(
+                    page.generatePage(
+                        noteArrayList,
+                        currentPage,
+                        context
+                    ), context
+                )
+                recyclerView.adapter = adapter
+                adapter.notifyDataSetChanged()
             }
         })
     }
 
     private fun retrieveUnarchivedQuery(
         context: Context,
-        noteArrayList: ArrayList<NoteData>
+        noteArrayList: ArrayList<NoteData>,
+        recyclerView: RecyclerView,
+        page: Paginator,
+        currentPage: Int
     ) {
         val documentRef =
-            firestore.collection("Users").document(firebaseUser.uid).collection("Notes")
+            collectionReference
                 .orderBy("title", Query.Direction.ASCENDING)
                 .whereEqualTo("archive", "false")
         documentRef.addSnapshotListener(object : EventListener<QuerySnapshot> {
-            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onEvent(
+                value: QuerySnapshot?,
+                error: FirebaseFirestoreException?
+            ) {
                 if (error != null) {
                     Toast.makeText(
                         context,
@@ -116,31 +162,49 @@ class NoteServices {
                         noteArrayList.add(data)
                     }
                 }
+                Log.d("check", "${noteArrayList.size}")
+                val adapter = NoteAdapter(
+                    page.generatePage(
+                        noteArrayList,
+                        currentPage,
+                        context
+                    ), context
+                )
+                recyclerView.adapter = adapter
+                adapter.notifyDataSetChanged()
             }
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun deleteNote(context: Context, noteAdapter: NoteAdapter, Id: String) {
-        firestore.collection("Users").document(firebaseUser.uid).collection("Notes").document(Id)
+        collectionReference.document(Id)
             .delete().addOnSuccessListener {
                 val db = DatabaseHandler(context)
                 db.deleteData(Id)
-                Toast.makeText(context, "This note is deleted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "This note is deleted", Toast.LENGTH_SHORT)
+                    .show()
             }.addOnFailureListener {
-                Toast.makeText(context, "note deletion is failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "note deletion is failed",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         noteAdapter.notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateNote(
         Id: String,
         newTitle: String,
         newContent: String,
         timeStamp: String,
         context: Context,
-        archive: Boolean
+        archive: Boolean,
+        adapter: NoteAdapter
     ) {
-        val docRef = firestore.collection("Users").document(firebaseUser.uid).collection("Notes")
+        val docRef = collectionReference
             .document(Id)
         val db = DatabaseHandler(context)
         val note = mutableMapOf<String, String>()
@@ -150,8 +214,10 @@ class NoteServices {
         note["archive"] = archive.toString()
         docRef.update(note as Map<String, Any>).addOnSuccessListener {
             db.updateData(Id, newTitle, newContent, timeStamp)
+            adapter.notifyDataSetChanged()
         }.addOnFailureListener {
-            Toast.makeText(context, "Failed to update Note", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Failed to update Note", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -160,7 +226,8 @@ class NoteServices {
         fileRef: StorageReference,
         profilePhoto: ShapeableImageView,
     ) {
-        fileRef.child("image").downloadUrl.addOnSuccessListener(object: OnSuccessListener<Uri>{
+        fileRef.child("image").downloadUrl.addOnSuccessListener(object :
+            OnSuccessListener<Uri> {
             override fun onSuccess(uri: Uri?) {
                 Glide.with(context).load(uri).into(profilePhoto)
             }
@@ -192,6 +259,12 @@ class NoteServices {
         }.addOnFailureListener {
             Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    companion object {
+        private const val USER_COLLECTION = "Users"
+        private const val NOTE_COLLECTION = "Notes"
+
     }
 }
 

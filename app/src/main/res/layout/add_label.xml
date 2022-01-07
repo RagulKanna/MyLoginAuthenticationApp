@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addLabel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gradient_color"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/labelAddText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:text="AddLabel:"
+        android:fontFamily="@font/adamina"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/labelAddFromUser"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/labelAddText"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/home_button_bg"
+        android:gravity="center_vertical"
+        android:hint="label name"
+        android:minHeight="48dp"
+        android:paddingStart="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/createLabelName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/labelAddText"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/labelAddFromUser"
+        android:background="@drawable/ic_baseline_add_24" />
+
+    <ImageButton
+        android:id="@+id/closeLabelBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/labelAddText"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/createLabelName"
+        android:background="@drawable/ic_outline_close_24" />
+
+</RelativeLayout>

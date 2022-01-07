@@ -36,7 +36,6 @@ class RegistrationPage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_registration, container, false)
-
         haveAnAccountButton = view.findViewById(R.id.moveToLoginPage)
         emailText = view.findViewById(R.id.EmailAddressInput)
         passwordText = view.findViewById(R.id.PasswordInput)
@@ -45,18 +44,14 @@ class RegistrationPage : Fragment() {
         userNameText = view.findViewById(R.id.userName)
         emailCheck =
             Regex("^[a-z0-9]{1,}+([_+-.][a-z0-9]{3,}+)*@[a-z0-9]+.[a-z]{2,3}+(.[a-z]{2,3}){0,1}$")
-
         registrationViewModel = ViewModelProvider(
             this,
             RegistrationViewModelFactory(UserAuthService())
         ).get(RegistrationViewModel::class.java)
-
         sharedViewModel = ViewModelProvider(
             requireActivity(),
             SharedViewModelFactory(UserAuthService())
         )[SharedViewModel::class.java]
-
-
         return view
     }
 
@@ -80,7 +75,6 @@ class RegistrationPage : Fragment() {
             val confirmPassword = confirmPasswordText.text.toString()
             val userName = userNameText.text.toString()
             val user = User(emailId = emailId, password = password, name = userName)
-
             if (!emailId.matches(emailCheck)) {
                 emailText.error = "Enter correct Email"
             } else if (password == "" || password.length < 6) {

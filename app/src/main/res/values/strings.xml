@@ -11,4 +11,12 @@
     <string name="this_is_title">This is Title</string>
     <string name="this_is_content">This is content</string>
     <string name="change_profile_picture">Change Profile Picture?</string>
+    <string name="this_is_timestamp">this is timeStamp</string>
+    <string name="this_is_label">This is Label</string>
+    <string name="select_label">Select Label</string>
+    <string name="check">check</string>
+    <string name="hello">hello</string>
+    <string name="notes">Notes</string>
+    <string name="archive">Archive</string>
+    <string name="share">Share</string>
 </resources>

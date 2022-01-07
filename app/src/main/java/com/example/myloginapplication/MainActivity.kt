@@ -16,7 +16,6 @@ import com.example.myloginapplication.viewmodel.SharedViewModelFactory
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedViewModel: SharedViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
@@ -26,19 +25,15 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         setContentView(R.layout.activity_main)
-
         sharedViewModel = ViewModelProvider(
             this,
             SharedViewModelFactory(UserAuthService())
         )[SharedViewModel::class.java]
-
         sharedViewModel.gotoLoginPage(true)
         //sharedViewModel.gotoHomePage(true)
-
         observeAppNav()
         //loadLoginPage()
     }
-
 
     private fun observeAppNav() {
         sharedViewModel.gotoLoginPageStatus.observe(this, Observer {

@@ -25,12 +25,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/adamina"
         android:text="Email"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/adamina" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/userNameDisplay"

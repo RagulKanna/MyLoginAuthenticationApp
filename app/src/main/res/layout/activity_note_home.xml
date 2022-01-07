@@ -5,8 +5,8 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@drawable/gradient_color"
+    android:fitsSystemWindows="true"
     tools:context=".NoteHomeActivity"
     tools:openDrawer="start">
 
@@ -32,16 +32,19 @@
                 android:theme="?attr/actionBarTheme"
                 app:buttonGravity="center_vertical">
 
-                <ImageButton
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profile"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="20dp"
                     android:backgroundTint="@color/fui_transparent"
                     android:clickable="true"
                     android:focusable="true"
-                    android:src="@drawable/ic_baseline_account_circle_24" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_baseline_account_circle_24"
+                    app:menu="@menu/profilemenu"
+                    app:shapeAppearanceOverlay="@style/roundedImage" />
 
 
                 <ImageButton
@@ -62,9 +65,9 @@
                     android:layout_gravity="right"
                     android:layout_marginEnd="5dp"
                     android:backgroundTint="@color/fui_transparent"
-                    android:outlineSpotShadowColor="@color/black"
                     android:clickable="true"
-                    android:focusable="true" />
+                    android:focusable="true"
+                    android:outlineSpotShadowColor="@color/black" />
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -84,9 +87,17 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
+        android:fitsSystemWindows="true"
         android:background="@drawable/gradient_color"
-        app:menu="@menu/menulist" />
+        app:headerLayout="@layout/nav_header">
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            layout="@layout/drawer_menu_list"/>
+
+    </com.google.android.material.navigation.NavigationView>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

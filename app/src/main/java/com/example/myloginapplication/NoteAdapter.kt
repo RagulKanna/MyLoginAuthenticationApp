@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import kotlin.collections.ArrayList
@@ -40,13 +41,12 @@ class NoteAdapter(
         val id = note.id
         val archive = note.archive
         if (titleValue != null && noteContentValue != null && time != null && id != null && archive != null) {
-            setValuesToViewAndDataBase(holder, note, db)
+                setValuesToViewAndDataBase(holder, note, db)
             onClickImageButton(
                 note,
                 holder,
                 context,
-                position,
-                false
+                position
             )
         }
         onClickCard(note, holder)
@@ -119,6 +119,16 @@ class NoteAdapter(
         holder.titleTextView.text = content
         holder.noteTextView.text = note.noteContent
         holder.timeView.text = note.dateTime
+        var labelString: String? = null
+        if (note.label == null) {
+            holder.labelText.isVisible = false
+            holder.labelView.isVisible = false
+        } else {
+            holder.labelText.isVisible = true
+            holder.labelView.isVisible = true
+            labelString = note.label!!.joinToString(separator = ",")
+            holder.labelView.text = labelString
+        }
         db.saveData(note)
     }
 
@@ -127,13 +137,12 @@ class NoteAdapter(
         note: NoteData,
         holder: NoteViewHolder,
         context: Context,
-        position: Int,
-        archive: Boolean
+        position: Int
     ) {
         holder.buttonInCard.setOnClickListener {
             val popupMenu = PopupMenu(context, holder.buttonInCard)
             popupMenu.menuInflater.inflate(R.menu.note_menu, popupMenu.menu)
-            val check = note?.archive!!
+            val check = note.archive!!
             if (check == "false") {
                 popupMenu.menu.findItem(R.id.archive).title = "Archive"
             } else {
@@ -167,7 +176,8 @@ class NoteAdapter(
                                 note.noteContent!!,
                                 note.dateTime!!,
                                 context,
-                                archive
+                                archive,
+                                adapter = NoteAdapter(noteList, context)
                             )
                             notifyDataSetChanged()
                             Toast.makeText(
@@ -183,7 +193,8 @@ class NoteAdapter(
                                 note.noteContent!!,
                                 note.dateTime!!,
                                 context,
-                                archive
+                                archive,
+                                adapter = NoteAdapter(noteList, context)
                             )
                             notifyDataSetChanged()
                             Toast.makeText(
@@ -200,15 +211,15 @@ class NoteAdapter(
         }
     }
 
-    class NoteViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val noteCard: CardView = itemView.findViewById(R.id.noteCard)
         val titleTextView: TextView = itemView.findViewById(R.id.noteTitle)
         val noteTextView: TextView = itemView.findViewById(R.id.noteContent)
         val buttonInCard: ImageButton = itemView.findViewById(R.id.btnNoteMenu)
         val timeView: TextView = itemView.findViewById(R.id.timeStamp)
-
+        val labelView: TextView = itemView.findViewById(R.id.labelTitle)
+        val labelText: TextView = itemView.findViewById(R.id.labelTextId)
     }
-
 }
 
 

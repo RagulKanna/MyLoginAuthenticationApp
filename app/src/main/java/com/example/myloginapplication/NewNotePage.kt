@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class NewNotePage : Fragment() {
@@ -52,17 +53,18 @@ class NewNotePage : Fragment() {
     private fun saveDataToFireStore() {
         saveFab.setOnClickListener() {
             val noteServices = NoteServices()
-            var title = createNewTitle.text.toString()
-            var noteContent = createNewNotes.text.toString()
+            val title = createNewTitle.text.toString()
+            val noteContent = createNewNotes.text.toString()
             val archive: Boolean = false
+            val label: ArrayList<String> = arrayListOf()
             if (title.isEmpty() || noteContent.isEmpty()) {
                 Toast.makeText(context, "Title and Notes must be entered", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                var context = requireContext()
+                val context = requireContext()
                 val sdf = SimpleDateFormat("dd MMMM,hh.mm a", Locale.getDefault())
                 val currentDateandTime: String = sdf.format(Date())
-                noteServices.addNote(title, noteContent, currentDateandTime, archive, context)
+                noteServices.addNote(title, noteContent, currentDateandTime, archive, context, label)
                 startActivity(Intent(activity, NoteHomeActivity::class.java))
             }
         }

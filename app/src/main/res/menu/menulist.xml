@@ -13,9 +13,9 @@
             android:title="Archive" />
 
         <item
-            android:id="@+id/logout"
+            android:id="@+id/label"
             android:icon="@drawable/ic_baseline_login_24"
-            android:title="Logout" />
+            android:title="Label" />
 
     </group>
 
@@ -24,7 +24,8 @@
         <item
             android:id="@+id/share"
             android:icon="@drawable/ic_baseline_share_24"
-            android:title="Share"/>
+            android:title="Share">
+        </item>
     </group>
 
 </menu>

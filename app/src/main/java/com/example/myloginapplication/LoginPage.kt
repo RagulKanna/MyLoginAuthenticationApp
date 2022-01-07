@@ -48,18 +48,14 @@ class LoginPage : Fragment() {
         loginButton = view.findViewById(R.id.loginButton)
         googleButton = view.findViewById(R.id.google_icon)
         mAuth = FirebaseAuth.getInstance()
-
         loginViewModel = ViewModelProvider(
             this,
             LoginViewModelFactory(UserAuthService())
         ).get(LoginViewModel::class.java)
-
         sharedViewModel = ViewModelProvider(
             requireActivity(),
             SharedViewModelFactory(UserAuthService())
         )[SharedViewModel::class.java]
-
-
         return view
     }
 

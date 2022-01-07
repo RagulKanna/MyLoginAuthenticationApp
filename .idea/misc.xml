@@ -16,18 +16,22 @@
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/gradient_color.xml" value="0.1625" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/home_button_bg.xml" value="0.1972972972972973" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.199609375" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_align_horizontal_left_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_archive_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1972972972972973" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.199609375" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_horizontal_split_24.xml" value="0.199609375" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_label_24.xml" value="0.1972972972972973" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_login_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_navigate_before_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_navigate_next_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_notes_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.199609375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_launcher_background.xml" value="0.15763888888888888" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/ic_outline_close_24.xml" value="0.19027777777777777" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/icon_dimens.xml" value="0.1972972972972973" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/input_bg.xml" value="0.1972972972972973" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/drawable/login_bg.xml" value="0.18541666666666667" />
@@ -46,6 +50,8 @@
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/activity_home.xml" value="0.176" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/activity_note_home.xml" value="0.1" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/add_label.xml" value="0.11236338797814208" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/drawer_menu_list.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_archive.xml" value="0.1" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_archive_page.xml" value="0.12295081967213115" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_blank.xml" value="0.1" />
@@ -57,6 +63,7 @@
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_google_signing_in.xml" value="0.12056010928961748" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_home_page.xml" value="0.1" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_home_screen.xml" value="0.16" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_label.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_login.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_login_successful.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_logout.xml" value="0.1" />
@@ -68,13 +75,18 @@
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_registration.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_search_notes.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_view_note_details.xml" value="0.14207650273224043" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/group_item.xml" value="0.1" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/inside_expand.xml" value="0.2" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/insideexpand.xml" value="0.264" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/nav_header.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/notes_layout.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/notes_list.xml" value="0.1" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/profile_view_layout.xml" value="0.16837431693989072" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/recyclerview.xml" value="0.14207650273224043" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/toolbar.xml" value="0.26993166287015946" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/menu/menulist.xml" value="0.18532818532818532" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/menu/note_menu.xml" value="0.1875" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/menu/profilemenu.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/menu/search_menu.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/menu/toolbar_menu.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/menu/toolbar_profile_menu.xml" value="0.1" />

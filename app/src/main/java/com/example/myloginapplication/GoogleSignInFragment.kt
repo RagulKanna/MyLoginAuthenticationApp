@@ -36,7 +36,7 @@ class GoogleSignInFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(activity, gso)
+        googleSignInClient = activity?.let { GoogleSignIn.getClient(it, gso) }!!
         mAuth = FirebaseAuth.getInstance()
         RC_SIGN_IN = 100
         progressDialog = ProgressDialog(context)
