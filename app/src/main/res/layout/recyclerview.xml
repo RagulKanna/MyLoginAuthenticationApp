@@ -29,4 +29,26 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/addLabelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_View"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/login_bg"
+        android:text="Add"
+        android:textSize="15sp"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:id="@+id/closeLabelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_View"
+        android:layout_toStartOf="@+id/addLabelButton"
+        android:background="@drawable/login_bg"
+        android:text="Close"
+        android:textSize="15sp"
+        android:textColor="@color/black"/>
+
 </RelativeLayout>

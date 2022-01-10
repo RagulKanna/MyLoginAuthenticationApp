@@ -40,8 +40,7 @@ class NoteServices {
         noteContent: String,
         timeStamp: String,
         archive: Boolean,
-        context: Context,
-        label: ArrayList<String>
+        context: Context
     ) {
         val note = mutableMapOf<String, String>()
         note["title"] = title

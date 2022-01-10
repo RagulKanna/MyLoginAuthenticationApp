@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.ExpandableListView.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -23,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-
 class NoteHomeActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
@@ -32,7 +30,7 @@ class NoteHomeActivity : AppCompatActivity() {
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var toggle: ActionBarDrawerToggle
     lateinit var profileSetting: ShapeableImageView
-    val PICTURE_REQUEST = 1
+    private val PICTURE_REQUEST = 1
     private lateinit var userEmailId: TextView
     private lateinit var displayUserName: TextView
     private lateinit var userProfilePhoto: ShapeableImageView
@@ -109,7 +107,7 @@ class NoteHomeActivity : AppCompatActivity() {
         }
     }
 
-    fun showList(context: Context) {
+    private fun showList(context: Context) {
         labelService.retrieveLabelCollection(context, expandableListView)
     }
 
@@ -168,7 +166,7 @@ class NoteHomeActivity : AppCompatActivity() {
         val notes: TextView = findViewById(R.id.viewNote)
         val archive: TextView = findViewById(R.id.archive)
         val share: TextView = findViewById(R.id.share)
-        notes.setOnClickListener() {
+        notes.setOnClickListener {
             drawerLayout.closeDrawers()
             homeScreen()
         }

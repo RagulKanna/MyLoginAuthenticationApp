@@ -64,7 +64,7 @@ class NewNotePage : Fragment() {
                 val context = requireContext()
                 val sdf = SimpleDateFormat("dd MMMM,hh.mm a", Locale.getDefault())
                 val currentDateandTime: String = sdf.format(Date())
-                noteServices.addNote(title, noteContent, currentDateandTime, archive, context, label)
+                noteServices.addNote(title, noteContent, currentDateandTime, archive, context)
                 startActivity(Intent(activity, NoteHomeActivity::class.java))
             }
         }

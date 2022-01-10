@@ -51,6 +51,7 @@
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/activity_note_home.xml" value="0.1" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/add_label.xml" value="0.11236338797814208" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/check_label.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/drawer_menu_list.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_archive.xml" value="0.1" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_archive_page.xml" value="0.12295081967213115" />
@@ -75,7 +76,7 @@
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_registration.xml" value="0.1875" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_search_notes.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/fragment_view_note_details.xml" value="0.14207650273224043" />
-        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/group_item.xml" value="0.1" />
+        <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/group_item.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/inside_expand.xml" value="0.2" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/insideexpand.xml" value="0.264" />
         <entry key="..\:/Users/ragul/AndroidStudioProjects/MyLoginApplication/app/src/main/res/layout/nav_header.xml" value="0.2" />

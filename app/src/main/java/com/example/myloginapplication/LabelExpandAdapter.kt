@@ -5,18 +5,18 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseExpandableListAdapter
-import android.widget.ExpandableListView
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 
 class LabelExpandAdapter(
     private var context: Context,
     private var labelName: MutableList<String>,
     private var labelList: HashMap<String, MutableList<String>>,
-    private var expandableListView: ExpandableListView
+    private var expandableListView: ExpandableListView,
+    private var labelData: ArrayList<LabelData>
 ) : BaseExpandableListAdapter() {
+    private lateinit var noteList: ArrayList<LabelData>
+    private val labelServices = LabelServices()
     override fun getGroupCount(): Int {
         return labelName.size
     }
@@ -80,15 +80,13 @@ class LabelExpandAdapter(
         val labelName: TextView = dialog.findViewById(R.id.labelAddFromUser)
         val addButton: ImageButton = dialog.findViewById(R.id.createLabelName)
         val closeButton: ImageButton = dialog.findViewById(R.id.closeLabelBox)
-        addButton.setOnClickListener{
+        addButton.setOnClickListener {
             val labelFromUser = labelName.text.toString()
-            val labelServices = LabelServices()
-            val labelRetrieve = NoteHomeActivity()
             labelServices.addLabelCollection(labelFromUser)
-            labelRetrieve.showList(context)
+            notifyDataSetChanged()
             dialog.dismiss()
         }
-        closeButton.setOnClickListener{
+        closeButton.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
@@ -112,12 +110,74 @@ class LabelExpandAdapter(
             convertView = inflater.inflate(R.layout.inside_expand, null)
         }
         val title: TextView = convertView?.findViewById(R.id.expandLabel)!!
-        title.text = getChild(groupPosition, childPosition)
+        val editLabel: ImageButton = convertView.findViewById(R.id.editLabel)
+        val deleteLabel: ImageButton = convertView.findViewById(R.id.deleteLabel)
+        val stringValue = getChild(groupPosition, childPosition)
+        title.text = stringValue
+        val label: LabelData = labelData[childPosition]
+        val labelId = label.id
+        if (labelId != null) {
+            deleteLabel(deleteLabel, groupPosition, childPosition, labelId)
+            editLabel(editLabel, groupPosition, childPosition, labelId)
+        }
         return convertView
+    }
+
+    private fun editLabel(
+        editLabel: ImageButton,
+        groupPosition: Int,
+        childPosition: Int,
+        labelId: String
+    ) {
+        editLabel.setOnClickListener {
+            editLabelBox(groupPosition,childPosition,labelId)
+        }
+    }
+
+    private fun deleteLabel(
+        deleteLabel: ImageButton,
+        groupPosition: Int,
+        childPosition: Int,
+        labelId: String
+    ) {
+        deleteLabel.setOnClickListener {
+            val string = getChild(groupPosition, childPosition)
+            Toast.makeText(context, "$labelId", Toast.LENGTH_SHORT).show()
+            labelList.get(labelName.get(groupPosition))?.remove(string)
+            notifyDataSetChanged()
+            labelServices.deleteLabelCollection(labelId)
+        }
+    }
+
+
+    private fun editLabelBox(groupPosition: Int,
+                             childPosition: Int,
+                             labelId: String) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.add_label)
+        val labelTextName: TextView = dialog.findViewById(R.id.labelAddFromUser)
+        val addButton: ImageButton = dialog.findViewById(R.id.createLabelName)
+        val closeButton: ImageButton = dialog.findViewById(R.id.closeLabelBox)
+        val string = getChild(groupPosition,childPosition)
+        labelTextName.hint = string
+        addButton.setOnClickListener {
+            val labelFromUser = labelTextName.text.toString()
+            labelList.get(labelName.get(groupPosition))?.set(childPosition,labelFromUser)
+            notifyDataSetChanged()
+            labelServices.updateLabelCollection(labelId,labelFromUser)
+            dialog.dismiss()
+        }
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.FILL_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
         return true
     }
-
 }

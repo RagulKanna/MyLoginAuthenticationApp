@@ -12,7 +12,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/adamina"
         android:padding="10dp"
-        android:text="hii"
+        android:text="label"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal"

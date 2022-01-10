@@ -9,6 +9,9 @@
         <item android:id="@+id/archive"
             android:title="TODO" />
 
+        <item android:id="@+id/label"
+            android:title="Label"/>
+
     </group>
 
 </menu>

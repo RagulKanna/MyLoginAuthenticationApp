@@ -1,6 +1,7 @@
 package com.example.myloginapplication
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.text.SpannableString
@@ -12,6 +13,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import kotlin.collections.ArrayList
@@ -41,7 +43,7 @@ class NoteAdapter(
         val id = note.id
         val archive = note.archive
         if (titleValue != null && noteContentValue != null && time != null && id != null && archive != null) {
-                setValuesToViewAndDataBase(holder, note, db)
+            setValuesToViewAndDataBase(holder, note, db)
             onClickImageButton(
                 note,
                 holder,
@@ -203,6 +205,28 @@ class NoteAdapter(
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                    }
+                    R.id.label -> {
+                        val dialog = Dialog(context)
+                        dialog.setContentView(R.layout.recyclerview)
+                        val addBtn = dialog.findViewById<Button>(R.id.addLabelButton)
+                        val closebtn = dialog.findViewById<Button>(R.id.closeLabelButton)
+                        val recyclerView: RecyclerView = dialog.findViewById(R.id.recycler_View)
+                        val layoutAsList = GridLayoutManager(context, 1)
+                        recyclerView.layoutManager = layoutAsList
+                        val labelServices = LabelServices()
+                        labelServices.retrieveLabel(
+                            context,
+                            recyclerView,
+                            addBtn,
+                            note,
+                            adapter = NoteAdapter(noteList, context)
+                        )
+                        closebtn.setOnClickListener {
+                            notifyDataSetChanged()
+                            dialog.dismiss()
+                        }
+                        dialog.show()
                     }
                 }
                 true
