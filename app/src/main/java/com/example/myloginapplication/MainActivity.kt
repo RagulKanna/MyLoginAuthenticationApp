@@ -12,7 +12,7 @@ import com.example.myloginapplication.model.UserAuthService
 import com.example.myloginapplication.viewmodel.SharedViewModel
 import com.example.myloginapplication.viewmodel.SharedViewModelFactory
 
-@Suppress("DEPRECATION")
+    @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedViewModel: SharedViewModel
@@ -30,9 +30,7 @@ class MainActivity : AppCompatActivity() {
             SharedViewModelFactory(UserAuthService())
         )[SharedViewModel::class.java]
         sharedViewModel.gotoLoginPage(true)
-        //sharedViewModel.gotoHomePage(true)
         observeAppNav()
-        //loadLoginPage()
     }
 
     private fun observeAppNav() {

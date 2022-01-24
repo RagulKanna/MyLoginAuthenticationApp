@@ -13,7 +13,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import kotlin.collections.ArrayList
@@ -212,7 +212,7 @@ class NoteAdapter(
                         val addBtn = dialog.findViewById<Button>(R.id.addLabelButton)
                         val closebtn = dialog.findViewById<Button>(R.id.closeLabelButton)
                         val recyclerView: RecyclerView = dialog.findViewById(R.id.recycler_View)
-                        val layoutAsList = GridLayoutManager(context, 1)
+                        val layoutAsList = LinearLayoutManager(context)
                         recyclerView.layoutManager = layoutAsList
                         val labelServices = LabelServices()
                         labelServices.retrieveLabel(
@@ -223,9 +223,10 @@ class NoteAdapter(
                             adapter = NoteAdapter(noteList, context)
                         )
                         closebtn.setOnClickListener {
-                            notifyDataSetChanged()
                             dialog.dismiss()
+                            notifyDataSetChanged()
                         }
+                        notifyDataSetChanged()
                         dialog.show()
                     }
                 }

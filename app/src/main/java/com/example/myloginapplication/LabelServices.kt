@@ -2,7 +2,6 @@ package com.example.myloginapplication
 
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
@@ -142,9 +141,9 @@ class LabelServices {
                 Toast.makeText(context, "Label added successfully", Toast.LENGTH_SHORT)
                     .show()
             }.addOnFailureListener {
-            Toast.makeText(context, "Failed to add Label", Toast.LENGTH_SHORT)
-                .show()
-        }
+                Toast.makeText(context, "Failed to add Label", Toast.LENGTH_SHORT)
+                    .show()
+            }
     }
 
     companion object {

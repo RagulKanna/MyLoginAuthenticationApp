@@ -16,4 +16,10 @@ class LoginViewModel(val userAuthService: UserAuthService) : ViewModel() {
             _loginStatus.value = it
         }
     }
+
+    fun loginWithApi(emailId: String, password: String){
+        userAuthService.loginWithRestApi(emailId, password){
+            _loginStatus.value = it
+        }
+    }
 }

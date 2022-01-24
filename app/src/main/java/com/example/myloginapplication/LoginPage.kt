@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myloginapplication.model.UserAuthService
 import com.example.myloginapplication.viewmodel.LoginViewModel
@@ -95,10 +96,6 @@ class LoginPage : Fragment() {
     }
 
     private fun goToRegisterPage() {
-//        createAccount.setOnClickListener() {
-//            sharedViewModel.gotoRegistrationPage(true)
-//            sharedViewModel.gotoHomePage(false)
-//        }
         createAccount.setOnClickListener {
             childFragmentManager.beginTransaction().replace(R.id.login_fragment, RegistrationPage())
                 .commit()
@@ -117,14 +114,12 @@ class LoginPage : Fragment() {
             } else if (password == "" || password.length < 6) {
                 passwordText.error = "Enter correct password"
             } else {
-                // loginViewModel.loginToFundoo(emailId, password)
-                //loginViewModel.loginStatus.observe(viewLifecycleOwner, Observer {
-                //if (it.status) {
-                //sharedViewModel.gotoHomePage(true)
-                firebaseLogin(emailId, password)
-                //  Toast.makeText(requireContext(), "${it.status}", Toast.LENGTH_SHORT).show()
-                //}
-                // })
+                loginViewModel.loginWithApi(emailId, password)
+                loginViewModel.loginStatus.observe(viewLifecycleOwner, Observer {
+                    if (it.status) {
+                        sharedViewModel.gotoHomePage(true)
+                    }
+                })
             }
         }
     }
@@ -146,7 +141,8 @@ class LoginPage : Fragment() {
                 if (it.isSuccessful) {
                     sendUserToSuccessfulPage()
                 } else {
-                    Toast.makeText(requireContext(), "${it.exception}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${it.exception}", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         )

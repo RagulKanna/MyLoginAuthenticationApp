@@ -17,11 +17,10 @@ class LabelRecyclerAdapter(
     private var noteData: NoteData
 ) :
     RecyclerView.Adapter<LabelRecyclerAdapter.LabelCheck>() {
-    private var addLabel: ArrayList<String> = arrayListOf()
 
-    class LabelCheck(view: View) : RecyclerView.ViewHolder(view) {
-        var labelCheck: CheckBox = view.findViewById(R.id.checkLabelText)
-        var labelName: TextView = view.findViewById(R.id.labeltext)
+    class LabelCheck(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val labelCheck: CheckBox = itemView.findViewById(R.id.checkLabelText)
+        val labelName: TextView = itemView.findViewById(R.id.labeltext)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelCheck {
@@ -31,31 +30,24 @@ class LabelRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: LabelCheck, position: Int) {
+        val addLabel: ArrayList<String> = arrayListOf()
         val labelData: LabelRecyclerData = labelList[position]
         holder.labelName.text = labelData.label
-        checkToArrayList(holder)
-        addLabelToArray(addLabel)
-    }
-
-    private fun addLabelToArray(addLabel: ArrayList<String>) {
         addButton.setOnClickListener {
-            addLabel.add("hai")
-            addLabel.add("dear")
-            Toast.makeText(context,"${addLabel.size}",Toast.LENGTH_SHORT).show()
+            if (holder.labelCheck.isChecked) {
+                addLabel.add(labelData.label.toString())
+                Toast.makeText(context, labelData.label.toString(), Toast.LENGTH_SHORT).show()
+            }
+            val labelService = LabelServices()
             if (addLabel.size > 0) {
-                val labelService = LabelServices()
-                labelService.addLabelCollectionInNote(addLabel, noteData.id!! ,context)
+                labelService.addLabelCollectionInNote(addLabel, noteData.id!!, context)
                 addButton.isEnabled = false
+            }else{
+                addLabel.clear()
+                labelService.addLabelCollectionInNote(addLabel, noteData.id!!, context)
             }
         }
     }
-
-    private fun checkToArrayList(holder: LabelCheck) {
-        if (holder.labelCheck.isChecked) {
-            addLabel.add(holder.labelName.text.toString())
-        }
-    }
-
 
     override fun getItemCount(): Int {
         return labelList.size

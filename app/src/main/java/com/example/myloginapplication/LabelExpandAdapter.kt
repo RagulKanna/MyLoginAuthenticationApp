@@ -144,8 +144,8 @@ class LabelExpandAdapter(
             val string = getChild(groupPosition, childPosition)
             Toast.makeText(context, "$labelId", Toast.LENGTH_SHORT).show()
             labelList.get(labelName.get(groupPosition))?.remove(string)
-            notifyDataSetChanged()
             labelServices.deleteLabelCollection(labelId)
+            notifyDataSetChanged()
         }
     }
 

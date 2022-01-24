@@ -30,7 +30,7 @@ class NoteServices {
         firestore = FirebaseFirestore.getInstance()
         firebaseUser = firebaseAuth.currentUser!!
         collectionReference =
-            firestore.collection(USER_COLLECTION).document(firebaseUser.uid).collection(
+            firestore.collection(USER_COLLECTION).document(firebaseAuth.currentUser!!.uid).collection(
                 NOTE_COLLECTION)
 
     }
@@ -101,11 +101,6 @@ class NoteServices {
                 error: FirebaseFirestoreException?
             ) {
                 if (error != null) {
-                    Toast.makeText(
-                        context,
-                        "Cannot Retrieve Data ${error.message.toString()}",
-                        Toast.LENGTH_LONG
-                    ).show()
                     Log.e(TAG, error.localizedMessage!!.toString());
                     return
                 }
@@ -147,11 +142,6 @@ class NoteServices {
                 error: FirebaseFirestoreException?
             ) {
                 if (error != null) {
-                    Toast.makeText(
-                        context,
-                        "Cannot Retrieve Data ${error.message.toString()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     return
                 }
                 for (dc: DocumentChange in value?.documentChanges!!) {

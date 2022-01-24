@@ -90,7 +90,6 @@ class RegistrationPage : Fragment() {
                     } else {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
-
                 })
             }
         }

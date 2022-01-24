@@ -90,7 +90,6 @@
                 app:menu="@menu/note_menu"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-
             <TextView
                 android:id="@+id/noteContent"
                 android:layout_width="match_parent"
@@ -119,8 +118,8 @@
                 android:id="@+id/timeStamp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/line2"
                 android:layout_alignParentBottom="true"
+                android:layout_below="@+id/line2"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center"
